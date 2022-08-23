@@ -124,10 +124,11 @@ const ScrollableTabBar = createReactClass({
     }
   },
 
-  renderTab(name, page, isTabActive, onPressHandler, onLayoutHandler) {
+  renderTab(tab, page, isTabActive, onPressHandler, onLayoutHandler) {
     const { activeTextColor, inactiveTextColor, textStyle, } = this.props;
     const textColor = isTabActive ? activeTextColor : inactiveTextColor;
     const fontWeight = isTabActive ? 'bold' : 'normal';
+    const { tabLabel: name } = tab
 
     return <Button
       key={`${name}_${page}`}
@@ -188,10 +189,10 @@ const ScrollableTabBar = createReactClass({
           ref={'tabContainer'}
           onLayout={this.onTabContainerLayout}
         >
-          {this.props.tabs.map((name, page) => {
+          {this.props.tabs.map((tab, page) => {
             const isTabActive = this.props.activeTab === page;
             const renderTab = this.props.renderTab || this.renderTab;
-            return renderTab(name, page, isTabActive, this.props.goToPage, this.measureTab.bind(this, page));
+            return renderTab(tab, page, isTabActive, this.props.goToPage, this.measureTab.bind(this, page));
           })}
           <Animated.View style={[tabUnderlineStyle, dynamicTabUnderline, this.props.underlineStyle, ]} />
         </View>
